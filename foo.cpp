@@ -6,34 +6,34 @@ using namespace std;
 class Solution 
 {
 public:
-    static void moveZeroes(vector<int>& nums) 
+    static bool isSubsequence(string s, string t) 
 	{
-		int i = 0;
-		int r = 0;
-		int n = nums.size();
-
-		while (i < n)
+		int found = 0;
+		int last_pos = 0;
+		for (int i = 0; i < s.length(); i++)
 		{
-			if (nums[i] == 0)
+			for (int j = last_pos + 1; j < t.length(); j++)
 			{
-				r++;
-				nums.push_back(0);
-				nums.erase(nums.begin() + i);
+				if (t[j] == s[i])
+				{
+					last_pos = j;
+					found ++;
+					break;
+				}
 			}
-		
-			i++;
 		}
 
-		for (auto i : nums)
-        	cout << i << " ";
+        return (found ==  s.length());
     }
 };
 
-int main()
-{
-	vector<int> nums = {0,0,1};
 
-	Solution::moveZeroes(nums);
+
+int main(void)
+{
+
+	cout << Solution::isSubsequence("abc", "ahbgdc") << endl;
 
 	return 0;
 }
+ 

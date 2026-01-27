@@ -2,54 +2,38 @@
 #include <vector>
 using namespace std;
 
-class Solution {
+
+class Solution 
+{
 public:
-    static int compress(vector<char>& chars) 
+    static void moveZeroes(vector<int>& nums) 
 	{
-		if (chars.size() == 1)
-			return 1;
+		int i = 0;
+		int r = 0;
+		int n = nums.size();
 
-		char cur = chars[0];
-		vector<char> outs;
-		int count = 0;
-
-		for (int i = 0; i < chars.size() - 1; i++)
+		while (i < n)
 		{
-			if (chars[i] != chars[i + 1])
+			if (nums[i] == 0)
 			{
-				outs.push_back(chars[i] + 48);
-				if (count > 10)
-				{
-					// fra9 dok nums like 12 => 1, 2
-
-					std::string nums = to_string(count);
-					outs.push_back(nums[0]);
-					outs.push_back(nums[1]); // maybe num is big like 222222
-				}
-				else if (count != 1)
-					outs.push_back(count);
-				
-				count = 0;
+				r++;
+				nums.push_back(0);
+				nums.erase(nums.begin() + i);
 			}
-			else
-			{
-				count ++;
-				
-			}
-
+		
+			i++;
 		}
 
-		return (outs.size());
+		for (auto i : nums)
+        	cout << i << " ";
     }
 };
 
-int main(void)
+int main()
 {
-	vector<char> nums = {'a', 'a', 'b', 'b', 'c', 'c', 'c'};
+	vector<int> nums = {0,0,1};
 
-	std::cout << Solution::compress(nums) << std::endl;
-	
+	Solution::moveZeroes(nums);
 
 	return 0;
 }
-

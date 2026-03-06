@@ -2,38 +2,62 @@
 #include <vector>
 using namespace std;
 
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
 
-class Solution 
-{
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
+// [-10,-3,0,5,9]
+
+class Solution {
 public:
-    static bool isSubsequence(string s, string t) 
-	{
-		int found = 0;
-		int last_pos = 0;
-		for (int i = 0; i < s.length(); i++)
-		{
-			for (int j = last_pos + 1; j < t.length(); j++)
-			{
-				if (t[j] == s[i])
-				{
-					last_pos = j;
-					found ++;
-					break;
-				}
-			}
-		}
 
-        return (found ==  s.length());
+    TreeNode* build(vector<int>& nums, int left, int right)
+    {
+        if (left > right)
+            return nullptr;
+
+        int mid = left + (right - left) / 2;
+
+        TreeNode* root = new TreeNode(nums[mid]);
+
+        root->left = build(nums, left, mid - 1);
+        root->right = build(nums, mid + 1, right);
+
+        return root;
+    }
+
+    TreeNode* sortedArrayToBST(vector<int>& nums) 
+    {
+        return build(nums, 0, nums.size() - 1);
     }
 };
 
-
-
-int main(void)
+// inorder print to verify BST
+void inorder(TreeNode* root)
 {
+    if (!root)
+        return;
 
-	cout << Solution::isSubsequence("abc", "ahbgdc") << endl;
-
-	return 0;
+    inorder(root->left);
+    cout << root->val << " ";
+    inorder(root->right);
 }
- 
+
+int main()
+{
+    vector<int> nums = {-10, -3, 0, 5, 9};
+
+    Solution sol;
+    TreeNode* root = sol.sortedArrayToBST(nums);
+
+    cout << "Inorder traversal of the BST:\n";
+    inorder(root);
+
+    cout << endl;
+
+    return 0;
+}
